@@ -1,0 +1,6 @@
+require 'gh-escalate/gh_issues'
+require 'gh-escalate/policy'
+require 'gh-escalate/policy_list'
+require 'gh-escalate/notifier'
+require 'gh-escalate/provider'
+require 'gh-escalate/providers/provider_email'

@@ -1,0 +1,31 @@
+#!/usr/bin/env ruby
+
+require 'yaml'
+
+require 'gh-escalate'
+
+POLICIES = YAML.load_file('policies.yaml').freeze
+TARGETS = YAML.load_file('targets.yaml').freeze
+CONFIG = YAML.load_file('config.yaml').freeze
+
+# GH client
+gh_issues = GHEscalate::GHIssues.new(CONFIG[:repo], CONFIG[:token])
+
+# Notifier
+notifier = GHEscalate::Notifier.new(TARGETS)
+
+# Policy list
+policy_list = GHEscalate::PolicyList.new(POLICIES)
+
+policy_list.each do |label, pols|
+  issues = gh_issues.search(label)
+  issues.each do |issue|
+    pols.each do |pol|
+      if pol.check(issue)
+        pol.targets.each do |target|
+          notifier.notify(target, issue[:title])
+        end
+      end
+    end
+  end
+end
