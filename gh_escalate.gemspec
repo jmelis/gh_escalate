@@ -3,10 +3,10 @@
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
-require 'gh-escalate/version'
+require 'gh_escalate/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "gh-escalate"
+  spec.name          = "gh_escalate"
   spec.version       = GHEscalate::VERSION
 
   spec.summary       = %q{Escalate GH Issues}

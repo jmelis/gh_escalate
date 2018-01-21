@@ -2,11 +2,17 @@
 
 require 'yaml'
 
-require 'gh-escalate'
+require 'gh_escalate'
 
-POLICIES = YAML.load_file('policies.yaml').freeze
-TARGETS = YAML.load_file('targets.yaml').freeze
-CONFIG = YAML.load_file('config.yaml').freeze
+POLICIES_FILE = ENV['GHESCALATE_POLICIES'] || 'policies.yaml'
+TARGETS_FILE = ENV['GHESCALATE_TARGETS'] || 'targets.yaml'
+CONFIG_FILE = ENV['GHESCALATE_CONFIG'] || 'config.yaml'
+
+POLICIES = YAML.load_file(POLICIES_FILE).freeze
+TARGETS = YAML.load_file(TARGETS_FILE).freeze
+
+repo = ENV['GHESCALATE_GH_REPO'] || YAML.load_file(CONFIG_FILE)[:repo]
+token = ENV['GHESCALATE_GH_TOKEN'] || YAML.load_file(CONFIG_FILE)[:token]
 
 # GH client
 gh_issues = GHEscalate::GHIssues.new(CONFIG[:repo], CONFIG[:token])
