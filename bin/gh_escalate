@@ -23,15 +23,4 @@ notifier = GHEscalate::Notifier.new(TARGETS)
 # Policy list
 policy_list = GHEscalate::PolicyList.new(POLICIES)
 
-policy_list.each do |label, pols|
-  issues = gh_issues.search(label)
-  issues.each do |issue|
-    pols.each do |pol|
-      if pol.check(issue)
-        pol.targets.each do |target|
-          notifier.notify(target, issue[:title])
-        end
-      end
-    end
-  end
-end
+run_gh_escalate(gh_issues, notifier, policy_list)
